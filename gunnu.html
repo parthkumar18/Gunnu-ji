@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Proposal</title>
+    <style>
+        body {
+            text-align: center;
+            background-image: url('mk2.png');
+            background-repeat: no-repeat;
+            background-size: 1536px 735px;
+        }
+        #lovePoem {
+            font-size: 30px;
+            margin: 20px;
+            text-align: center;
+            color: rgb(169, 13, 42);
+        }
+        #heart {
+            color: red;
+            font-size: 24px;
+            margin: 10px;
+        }
+        #responseMessage {
+            display: none;
+            font-size: 18px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="heart">
+        ❤ <span id="name">GUNNU</span>
+    </div>
+    <div id="question">
+        <p>Will you be my Valentine?</p>
+        <button onclick="displayMessage('yes')" id="yesButton">Yes</button>
+        <button onclick="displayMessage('no')" id="noButton">No</button>
+    </div>
+    <div id="responseMessage">
+        <!-- Romantic message for 'Yes' response goes here -->
+    </div>
+
+    <script>
+        let attempts = 0;
+        let loveQuotes = [
+            "You are the sunshine that makes my day.",
+            "Your love is the melody in my heart.",
+            "In your arms, I've found my forever home.",
+            "Every moment with you is a beautiful dream.",
+            "You and I, a love story written in the stars."
+        ];
+
+        let yesSelected = false;
+
+        function displayMessage(response) {
+            const responseMessage = document.getElementById('responseMessage');
+            const yesButton = document.getElementById('yesButton');
+            const noButton = document.getElementById('noButton');
+            const nameElement = document.getElementById('name');
+
+            if (yesSelected) {
+                // If 'Yes' has already been selected, do nothing
+                return;
+            }
+
+            if (response === 'yes') {
+                if (attempts === 0) {
+                    // Display a romantic quote for the first 'Yes'
+                    const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+                    responseMessage.innerHTML = loveQuotes[randomIndex];
+                } else {
+                    // Display the nomination message for subsequent 'Yes'
+                    responseMessage.innerHTML = "Took you long enough to get here ❤";
+                }
+
+                // Disable the 'No' button after 'Yes' is selected
+                noButton.disabled = true;
+                yesSelected = true;
+            } else {
+                if (attempts === 0) {
+                    responseMessage.innerHTML = "Try again, you pressed the wrong answer.";
+                } else if (attempts === 1) {
+                    responseMessage.innerHTML = "It seems you need glasses as you pressed the wrong one again. Let's try again.";
+                } else if (attempts === 2) {
+                    responseMessage.innerHTML = "One more time... You need help finding the right answer. Here's a hint: Starts with 'y' and ends with 'es'.";
+                } else if (attempts === 3) {
+                    responseMessage.innerHTML = "It seems you're struggling. The correct answer is 'Yes'.";
+                }
+            }
+
+            // Display the response message
+            responseMessage.style.display = 'block';
+
+            // Allow further actions after reaching the final message
+            if (attempts === 3) {
+                attempts = 4; // Reset attempts to allow further actions
+                document.querySelector('#question p').innerHTML = 'Looks like you need some help. Will you be my Valentine now?';
+                // Move the name inside the heart for the final message
+                nameElement.innerHTML = "GUNNU";
+            } else {
+                attempts++;
+            }
+        }
+    </script>
+</body>
+</html>
